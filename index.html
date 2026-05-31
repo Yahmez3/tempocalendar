@@ -279,6 +279,112 @@ body, nav, .themes, .phone-screen {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
+
+/* ───── SCROLL ANIMATIONS ───── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ───── COMPARISON TABLE ───── */
+.comparison-table {
+  max-width: 900px;
+  margin: 48px auto 0;
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+thead th {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  padding: 20px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--rule);
+}
+thead th:first-child { color: var(--accent); font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+tbody td {
+  padding: 16px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-soft);
+}
+tbody td:first-child {
+  font-weight: 500;
+  color: var(--ink);
+}
+.check { color: #6B7A5F; font-size: 18px; }
+.cross { color: var(--accent); opacity: 0.4; font-size: 18px; }
+
+/* ───── INTERACTIVE DEMO ───── */
+.demo-container {
+  max-width: 500px;
+  margin: 48px auto 0;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.demo-instructions {
+  text-align: center;
+  font-size: 14px;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.demo-week {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.demo-day {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+}
+.demo-day-label {
+  font-size: 13px;
+  font-weight: 500;
+  width: 50px;
+  color: var(--ink-soft);
+}
+.demo-task {
+  padding: 10px 14px;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 14px;
+  user-select: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.demo-task:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.demo-task.dragging {
+  cursor: grabbing;
+  opacity: 0.6;
+}
+.demo-task.settled {
+  animation: settle 0.4s ease-out;
+}
+@keyframes settle {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
 </style>
 </head>
 <body>
@@ -341,6 +447,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+// Scroll-triggered animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, observerOptions);
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+});
+
+// Interactive drag-and-drop demo
+document.addEventListener('DOMContentLoaded', function() {
+  const demoWeek = document.getElementById('demoWeek');
+  if (!demoWeek) return;
+  
+  let draggedTask = null;
+  
+  // Make tasks draggable
+  demoWeek.querySelectorAll('.demo-task').forEach(task => {
+    task.addEventListener('dragstart', function(e) {
+      draggedTask = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    
+    task.addEventListener('dragend', function() {
+      this.classList.remove('dragging');
+    });
+  });
+  
+  // Make days droppable
+  demoWeek.querySelectorAll('.demo-day').forEach(day => {
+    day.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    });
+    
+    day.addEventListener('drop', function(e) {
+      e.preventDefault();
+      if (draggedTask) {
+        // Remove from old parent
+        draggedTask.parentNode.removeChild(draggedTask);
+        
+        // Add to new day
+        this.appendChild(draggedTask);
+        
+        // Add settle animation
+        draggedTask.classList.add('settled');
+        setTimeout(() => draggedTask.classList.remove('settled'), 400);
+      }
+    });
+  });
+});
 </script>
 
 <nav>
@@ -351,6 +519,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </a>
     <div class="nav-links">
       <a href="#features">Features</a>
+      <a href="#comparison">Compare</a>
       <a href="#themes">Themes</a>
       <a href="#pricing">Pricing</a>
       <a href="https://yahmez3.github.io/tempo-legal/support.html">Support</a>
@@ -428,10 +597,103 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
 
     </div>
+    
+    <!-- Interactive Demo Widget -->
+    <div class="demo-container fade-in">
+      <div class="demo-instructions">👆 Try it: drag a task to a different day</div>
+      <div class="demo-week" id="demoWeek">
+        <div class="demo-day" data-day="mon">
+          <div class="demo-day-label">Mon</div>
+          <div class="demo-task" draggable="true">Deep Work</div>
+        </div>
+        <div class="demo-day" data-day="tue">
+          <div class="demo-day-label">Tue</div>
+        </div>
+        <div class="demo-day" data-day="wed">
+          <div class="demo-day-label">Wed</div>
+          <div class="demo-task" draggable="true">Team Sync</div>
+        </div>
+        <div class="demo-day" data-day="thu">
+          <div class="demo-day-label">Thu</div>
+        </div>
+        <div class="demo-day" data-day="fri">
+          <div class="demo-day-label">Fri</div>
+          <div class="demo-task" draggable="true">Review</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<section id="themes" class="themes">
+<!-- Comparison Section -->
+<section id="comparison" class="fade-in">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">Comparison</div>
+      <h2>Different by design.</h2>
+      <p class="section-sub">Built for humans, not enterprise org charts.</p>
+    </div>
+    
+    <div class="comparison-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Tempo</th>
+            <th>Fantastical</th>
+            <th>Google Calendar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Auto-schedule tasks</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Drag to reflow week</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Project deadline forecasting</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Calm aesthetic themes</td>
+            <td><span class="check">✓ (8 themes)</span></td>
+            <td><span class="check">✓ (limited)</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Privacy-first AI</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Free tier with core features</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Subscription price (yearly)</td>
+            <td>$59.99 AUD</td>
+            <td>$69.99 USD</td>
+            <td>Free</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="themes" class="themes fade-in">
   <div class="wrap">
     <div class="section-head">
       <div class="section-eyebrow">Themes</div>
@@ -452,7 +714,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </section>
 
-<section id="pricing">
+<section id="pricing" class="fade-in">
   <div class="wrap">
     <div class="section-head">
       <div class="section-eyebrow">Pricing</div>
@@ -490,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </section>
 
-<section class="privacy-band">
+<section class="privacy-band fade-in">
   <div class="wrap">
     <div class="section-head">
       <div class="section-eyebrow">Privacy</div>
