@@ -263,9 +263,85 @@ footer a:hover { color: var(--ink); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .hero, section { animation: fade-up .6s ease-out both; }
+
+/* smooth theme transitions */
+:root {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+body, nav, .themes, .phone-screen {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+.swatch {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.swatch:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
 </style>
 </head>
 <body>
+
+<script>
+// Theme hover interaction - dynamically change page colors
+document.addEventListener('DOMContentLoaded', function() {
+  const swatches = document.querySelectorAll('.swatch');
+  const root = document.documentElement;
+  
+  // Store original theme colors
+  const originalTheme = {
+    bg: '#F4ECE2',
+    bgAlt: '#EFE5D7',
+    ink: '#2E2A26',
+    inkSoft: '#5A524B',
+    accent: '#7A7068',
+    card: '#FAF3E8',
+    navBg: 'rgba(244, 236, 226, 0.85)'
+  };
+  
+  // Theme color mappings extracted from swatches
+  const themes = [
+    { bg: '#F4ECE2', ink: '#2E2A26', accent: '#7A7068', bgAlt: '#EFE5D7', card: '#FAF3E8', navBg: 'rgba(244, 236, 226, 0.85)' }, // Default
+    { bg: '#F5DCC8', ink: '#3A2820', accent: '#C26A4A', bgAlt: '#F0D1BA', card: '#FAE6D8', navBg: 'rgba(245, 220, 200, 0.85)' }, // Sunset
+    { bg: '#F5E1E5', ink: '#3A2A2D', accent: '#A65A6E', bgAlt: '#F0D6DB', card: '#FAEBEE', navBg: 'rgba(245, 225, 229, 0.85)' }, // Cherry Blossom
+    { bg: '#E6DCD3', ink: '#3A2A20', accent: '#7A5A3F', bgAlt: '#DFD2C5', card: '#EEE6DD', navBg: 'rgba(230, 220, 211, 0.85)' }, // Mocha
+    { bg: '#E8EDE5', ink: '#2D3A2A', accent: '#6B7A5F', bgAlt: '#DDE5D7', card: '#F0F5ED', navBg: 'rgba(232, 237, 229, 0.85)' }, // Garden
+    { bg: '#EFE6D9', ink: '#2A2622', accent: '#8C6B3F', bgAlt: '#E7DBCB', card: '#F5EEE3', navBg: 'rgba(239, 230, 217, 0.85)' }, // Lofi
+    { bg: '#1F2227', ink: '#EFE6D9', accent: '#7BD3B2', bgAlt: '#282C33', card: '#252930', navBg: 'rgba(31, 34, 39, 0.85)' }, // Slate
+    { bg: '#22253A', ink: '#DDE2F0', accent: '#9A8DE0', bgAlt: '#2A2E45', card: '#282C40', navBg: 'rgba(34, 37, 58, 0.85)' }  // Indigo
+  ];
+  
+  swatches.forEach((swatch, index) => {
+    swatch.addEventListener('mouseenter', function() {
+      const theme = themes[index];
+      root.style.setProperty('--bg', theme.bg);
+      root.style.setProperty('--bg-alt', theme.bgAlt);
+      root.style.setProperty('--ink', theme.ink);
+      root.style.setProperty('--ink-soft', theme.ink + 'aa'); // semi-transparent
+      root.style.setProperty('--accent', theme.accent);
+      root.style.setProperty('--card', theme.card);
+      
+      // Update nav background with transparency
+      const nav = document.querySelector('nav');
+      if (nav) nav.style.background = theme.navBg;
+    });
+    
+    swatch.addEventListener('mouseleave', function() {
+      // Restore original theme
+      root.style.setProperty('--bg', originalTheme.bg);
+      root.style.setProperty('--bg-alt', originalTheme.bgAlt);
+      root.style.setProperty('--ink', originalTheme.ink);
+      root.style.setProperty('--ink-soft', originalTheme.inkSoft);
+      root.style.setProperty('--accent', originalTheme.accent);
+      root.style.setProperty('--card', originalTheme.card);
+      
+      const nav = document.querySelector('nav');
+      if (nav) nav.style.background = originalTheme.navBg;
+    });
+  });
+});
+</script>
 
 <nav>
   <div class="wrap">
