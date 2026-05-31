@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>tempo — the calm iOS calendar that plans itself</title>
 <meta name="description" content="Tempo is a calm iOS calendar that auto-schedules your tasks around your real availability. Eight aesthetic themes. Drag to reschedule. No migration required. Launching 30 June 2026.">
-<meta name="theme-color" content="#F4ECE2">
+<meta name="theme-color" content="#0a0a0a">
 
 <!-- Open Graph -->
 <meta property="og:title" content="tempo — the calm iOS calendar that plans itself">
@@ -20,13 +20,13 @@
 
 <style>
 :root {
-  --bg: #F4ECE2;
-  --bg-alt: #EFE5D7;
-  --ink: #2E2A26;
-  --ink-soft: #5A524B;
-  --accent: #7A7068;
-  --rule: rgba(46, 42, 38, 0.08);
-  --card: #FAF3E8;
+  --bg: #0a0a0a;
+  --bg-alt: #141414;
+  --ink: #ffffff;
+  --ink-soft: #b0b0b0;
+  --accent: #9A8DE0;
+  --rule: rgba(255, 255, 255, 0.1);
+  --card: #1a1a1a;
   --radius: 14px;
   --max: 1080px;
   --serif: 'New York', 'Times New Roman', Georgia, serif;
@@ -56,7 +56,7 @@ a:hover { color: var(--accent); }
 /* ───── NAV ───── */
 nav {
   position: sticky; top: 0; z-index: 10;
-  background: rgba(244, 236, 226, 0.85);
+  background: rgba(10, 10, 10, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid var(--rule);
@@ -320,7 +320,7 @@ tbody td:first-child {
   font-weight: 500;
   color: var(--ink);
 }
-.check { color: #6B7A5F; font-size: 18px; }
+.check { color: #7BD3B2; font-size: 18px; }
 .cross { color: var(--accent); opacity: 0.4; font-size: 18px; }
 
 /* ───── INTERACTIVE DEMO ───── */
@@ -455,13 +455,13 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Store original theme colors
   const originalTheme = {
-    bg: '#F4ECE2',
-    bgAlt: '#EFE5D7',
-    ink: '#2E2A26',
-    inkSoft: '#5A524B',
-    accent: '#7A7068',
-    card: '#FAF3E8',
-    navBg: 'rgba(244, 236, 226, 0.85)'
+    bg: '#0a0a0a',
+    bgAlt: '#141414',
+    ink: '#ffffff',
+    inkSoft: '#b0b0b0',
+    accent: '#9A8DE0',
+    card: '#1a1a1a',
+    navBg: 'rgba(10, 10, 10, 0.85)'
   };
   
   // Theme color mappings extracted from swatches
