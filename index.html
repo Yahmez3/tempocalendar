@@ -385,6 +385,64 @@ tbody td:first-child {
   50% { transform: scale(0.98); }
   100% { transform: scale(1); }
 }
+
+/* ───── FAQ ───── */
+.faq-section { background: var(--bg-alt); }
+.faq-list {
+  max-width: 780px;
+  margin: 48px auto 0;
+}
+.faq-item {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.faq-item:hover {
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.faq-question {
+  width: 100%;
+  padding: 24px 28px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s;
+}
+.faq-question:hover {
+  color: var(--accent);
+}
+.faq-icon {
+  font-size: 24px;
+  transition: transform 0.3s;
+  color: var(--accent);
+}
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+  padding: 0 28px;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.faq-item.open .faq-answer {
+  max-height: 500px;
+  padding: 0 28px 24px;
+}
 </style>
 </head>
 <body>
@@ -506,6 +564,27 @@ document.addEventListener('DOMContentLoaded', function() {
         draggedTask.classList.add('settled');
         setTimeout(() => draggedTask.classList.remove('settled'), 400);
       }
+    });
+  });
+});
+
+// FAQ Accordion
+document.addEventListener('DOMContentLoaded', function() {
+  const faqItems = document.querySelectorAll('.faq-item');
+  
+  faqItems.forEach(item => {
+    const question = item.querySelector('.faq-question');
+    
+    question.addEventListener('click', function() {
+      // Close other items
+      faqItems.forEach(otherItem => {
+        if (otherItem !== item && otherItem.classList.contains('open')) {
+          otherItem.classList.remove('open');
+        }
+      });
+      
+      // Toggle current item
+      item.classList.toggle('open');
     });
   });
 });
@@ -770,6 +849,98 @@ document.addEventListener('DOMContentLoaded', function() {
       <div>
         <h4>AI without the log</h4>
         <p>Ask Tempo runs through a proxy that doesn't log prompts or train on them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section fade-in">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-eyebrow">FAQ</div>
+      <h2>Questions? We've got answers.</h2>
+    </div>
+    
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          Does Tempo work with my existing calendar?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Yes. Tempo reads and writes to your existing iCloud, Google, or Outlook calendar. No migration needed — all your events stay exactly where they are.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          Do I need to move my data?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          No. Tempo works on top of your existing calendar provider. Your events live in iCloud, Google, or Outlook — Tempo just gives you a better way to see and manage them.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I cancel Tempo+ anytime?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Absolutely. Cancel through the App Store anytime. When you cancel, the free version of Tempo keeps working — you'll still have your calendar, themes, and drag-to-reschedule. You just lose the AI features like auto-scheduling and project mode.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          Is my calendar data private?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Yes. Your calendar data stays on your iPhone and your own iCloud/Google/Outlook account. Tempo doesn't send it to our servers. The Ask Tempo AI feature uses a privacy-focused proxy that doesn't log or train on your prompts.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          What's the difference between Tempo and Tempo+?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Tempo (free) gives you the full calendar with all 8 themes, drag-to-reschedule, widgets, and natural-language entry. Tempo+ adds the AI brain: auto-scheduling tasks around your availability, project deadline forecasting, and the Ask Tempo conversational planner.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          When does Tempo launch?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Tempo launches on the App Store on June 30, 2026. Everyone gets a 7-day free trial of Tempo+ at launch.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          Will there be an Android version?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Not at launch. Tempo is iOS-only for now. If there's enough interest, we'll consider Android after the iOS version is stable.
+        </div>
+      </div>
+      
+      <div class="faq-item">
+        <button class="faq-question">
+          Who's building this?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Tempo is built by an indie developer in Australia. No VC funding, no data-harvesting business model — just a calendar app that respects your time and privacy.
+        </div>
       </div>
     </div>
   </div>
