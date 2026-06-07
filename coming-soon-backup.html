@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tempo: calm calendar - Coming Soon</title>
+    <meta name="description" content="A calm, beautiful calendar app. Coming soon to iOS.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #F4ECE2 0%, #E8DFD0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c2c2c;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 40px;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 24px;
+            color: #666;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        .coming-soon {
+            font-size: 18px;
+            color: #888;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .notify-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto 30px;
+        }
+
+        .notify-form input {
+            flex: 1;
+            padding: 16px 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .notify-form input:focus {
+            outline: none;
+            border-color: #2c2c2c;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .notify-form button {
+            padding: 16px 32px;
+            background: #2c2c2c;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .notify-form button:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social {
+            margin-top: 40px;
+        }
+
+        .social a {
+            color: #666;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .social a:hover {
+            color: #2c2c2c;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 36px; }
+            .tagline { font-size: 20px; }
+            .notify-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="assets/tempo-icon.png" alt="Tempo Calendar Icon">
+        </div>
+        <h1>tempo</h1>
+        <p class="tagline">calm calendar</p>
+        <p class="coming-soon">Coming Soon</p>
+        
+        <form class="notify-form" action="https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse" method="POST" target="_blank" onsubmit="showThankYou()">
+            <input type="email" name="emailAddress" placeholder="Enter your email" required>
+            <button type="submit">Notify Me</button>
+        </form>
+
+        <div class="social">
+            <a href="mailto:tempo.studios@proton.me">Contact</a>
+        </div>
+    </div>
+
+    <script>
+        function showThankYou() {
+            setTimeout(() => {
+                document.querySelector('.notify-form').innerHTML = '<p style="color: #2c2c2c; font-size: 18px;">Thank you! We\'ll notify you when we launch.</p>';
+            }, 100);
+        }
+    </script>
+</body>
+</html>
