@@ -214,7 +214,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 56px;
-  align-items: center;
+  align-items: start;
 }
 @media (max-width: 880px) { .features { grid-template-columns: 1fr; gap: 64px; } }
 .feature { display: flex; flex-direction: column; gap: 32px; align-items: center; text-align: center; }
@@ -239,6 +239,16 @@ h2 {
   padding: 22px;
   display: flex; flex-direction: column; justify-content: space-between;
   border: 1px solid var(--rule);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.swatch:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.swatch.theme-active {
+  border: 2px solid var(--ink);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 .swatch .dot { width: 26px; height: 26px; border-radius: 50%; }
 .swatch .name { font-family: var(--serif); font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
@@ -389,14 +399,6 @@ footer a:hover { color: var(--ink); }
 }
 body, nav, .themes, .phone-screen {
   transition: background-color 0.4s ease, color 0.4s ease;
-}
-.swatch {
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.swatch:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
 }
 
 /* ───── SCROLL ANIMATIONS ───── */
@@ -567,9 +569,9 @@ tbody td:first-child {
 <body>
 
 <script>
-// Countdown Timer to Launch Date (June 30, 2026)
+// Countdown Timer to Launch Date (June 30, 2026 8am AEST)
 function updateCountdown() {
-  const launchDate = new Date('2026-06-30T00:00:00+10:00').getTime(); // AEST
+  const launchDate = new Date('2026-06-30T08:00:00+10:00').getTime(); // 8am AEST
   const now = new Date().getTime();
   const distance = launchDate - now;
   
@@ -596,8 +598,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const swatches = document.querySelectorAll('.swatch');
   const root = document.documentElement;
   
-  // Store original theme colors
-  const originalTheme = {
+  // Store current active theme (starts with default)
+  let activeTheme = {
     bg: '#F4ECE2',
     bgAlt: '#EFE5D7',
     ink: '#2E2A26',
@@ -619,32 +621,39 @@ document.addEventListener('DOMContentLoaded', function() {
     { bg: '#22253A', ink: '#DDE2F0', accent: '#9A8DE0', bgAlt: '#2A2E45', card: '#282C40', navBg: 'rgba(34, 37, 58, 0.85)' }  // Indigo
   ];
   
+  function applyTheme(theme) {
+    root.style.setProperty('--bg', theme.bg);
+    root.style.setProperty('--bg-alt', theme.bgAlt);
+    root.style.setProperty('--ink', theme.ink);
+    root.style.setProperty('--ink-soft', theme.ink + 'aa'); // semi-transparent
+    root.style.setProperty('--accent', theme.accent);
+    root.style.setProperty('--card', theme.card);
+    
+    // Update nav background with transparency
+    const nav = document.querySelector('nav');
+    if (nav) nav.style.background = theme.navBg;
+  }
+  
   swatches.forEach((swatch, index) => {
+    // Hover preview (temporary)
     swatch.addEventListener('mouseenter', function() {
       const theme = themes[index];
-      root.style.setProperty('--bg', theme.bg);
-      root.style.setProperty('--bg-alt', theme.bgAlt);
-      root.style.setProperty('--ink', theme.ink);
-      root.style.setProperty('--ink-soft', theme.ink + 'aa'); // semi-transparent
-      root.style.setProperty('--accent', theme.accent);
-      root.style.setProperty('--card', theme.card);
-      
-      // Update nav background with transparency
-      const nav = document.querySelector('nav');
-      if (nav) nav.style.background = theme.navBg;
+      applyTheme(theme);
     });
     
+    // Mouse leave - restore active theme (not original)
     swatch.addEventListener('mouseleave', function() {
-      // Restore original theme
-      root.style.setProperty('--bg', originalTheme.bg);
-      root.style.setProperty('--bg-alt', originalTheme.bgAlt);
-      root.style.setProperty('--ink', originalTheme.ink);
-      root.style.setProperty('--ink-soft', originalTheme.inkSoft);
-      root.style.setProperty('--accent', originalTheme.accent);
-      root.style.setProperty('--card', originalTheme.card);
+      applyTheme(activeTheme);
+    });
+    
+    // Click to make permanent
+    swatch.addEventListener('click', function() {
+      activeTheme = themes[index];
+      applyTheme(activeTheme);
       
-      const nav = document.querySelector('nav');
-      if (nav) nav.style.background = originalTheme.navBg;
+      // Visual indicator: add active class to clicked swatch
+      swatches.forEach(s => s.classList.remove('theme-active'));
+      this.classList.add('theme-active');
     });
   });
 });
@@ -784,7 +793,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </a>
         <a class="btn btn-secondary" href="#features">See how it works</a>
       </div>
-      <p class="launch-note"><strong>Launch pricing:</strong> $0.99 AUD/month for Tempo+ · 7-day free trial · Made by an indie developer in Australia</p>
+      <p class="launch-note">Made by an indie developer in Australia. 7-day free trial on Tempo+ at launch.</p>
     </div>
     <div>
       <div class="phone">
@@ -1019,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="section-head">
       <div class="section-eyebrow">Pricing</div>
       <h2>Free to start.<br>Tempo+ when you want the brain.</h2>
-      <p class="section-sub">Fair pricing from an indie developer — no venture-backed productivity factory. Launch pricing: $0.99 AUD/month (regular $9.99).</p>
+      <p class="section-sub">Fair pricing from an indie developer — no venture-backed productivity factory.</p>
     </div>
 
     <div class="pricing-grid">
@@ -1037,10 +1046,9 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
       </div>
       <div class="price-card featured">
-        <h4>Tempo+ <span style="display:inline-block;background:var(--accent);color:var(--bg);padding:4px 10px;border-radius:6px;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;margin-left:8px;">Launch Deal</span></h4>
-        <div class="price" style="text-decoration:line-through;opacity:0.5;font-size:24px;">$9.99<small> AUD / month</small></div>
-        <div class="price" style="margin-top:0;">$0.99<small> AUD / month</small></div>
-        <p class="price-sub">First 3 months · Then $9.99/month or $59.99/year · 7-day free trial</p>
+        <h4>Tempo+</h4>
+        <div class="price">$9.99<small> AUD / month</small></div>
+        <p class="price-sub">or $59.99 / year · 7-day free trial</p>
         <ul class="price-list">
           <li>Auto-scheduler around real availability</li>
           <li>Procrastination calculator</li>
