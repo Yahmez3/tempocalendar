@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>tempo — the calm iOS calendar that plans itself</title>
-<meta name="description" content="Tempo is a calm iOS calendar that auto-schedules your tasks around your real availability. Eight aesthetic themes. Drag to reschedule. No migration required. Launching 30 June 2026.">
+<meta name="description" content="Tempo is a calm iOS calendar that auto-schedules your tasks around your real availability. Eight aesthetic themes. Drag to reschedule. No migration required. Coming soon to iOS.">
 <meta name="theme-color" content="#F4ECE2">
 
 <!-- Open Graph -->
@@ -94,44 +94,6 @@ h1 {
   margin: 0 0 24px; font-weight: 500;
 }
 
-/* ───── COUNTDOWN TIMER ───── */
-.countdown {
-  display: inline-flex;
-  gap: 16px;
-  background: var(--card);
-  border: 1px solid var(--rule);
-  border-radius: 12px;
-  padding: 16px 24px;
-  margin-bottom: 24px;
-  font-family: var(--sans);
-}
-@media (max-width: 880px) { .countdown { margin-left: auto; margin-right: auto; } }
-.countdown-unit {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 48px;
-}
-.countdown-value {
-  font-family: var(--serif);
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1;
-  color: var(--ink);
-}
-.countdown-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin-top: 6px;
-}
-.countdown-separator {
-  font-size: 24px;
-  color: var(--accent);
-  align-self: center;
-  opacity: 0.5;
-}
 .tagline {
   font-size: 22px; line-height: 1.45; color: var(--ink-soft);
   margin: 0 0 36px; max-width: 38ch;
@@ -569,31 +531,7 @@ tbody td:first-child {
 <body>
 
 <script>
-// Countdown Timer to Launch Date (June 30, 2026 8am AEST)
-function updateCountdown() {
-  const launchDate = new Date('2026-06-30T08:00:00+10:00').getTime(); // 8am AEST
-  const now = new Date().getTime();
-  const distance = launchDate - now;
-  
-  if (distance < 0) {
-    document.getElementById('countdown').innerHTML = '<div class="countdown-unit"><div class="countdown-value">🎉</div><div class="countdown-label">Launched!</div></div>';
-    return;
-  }
-  
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  
-  document.getElementById('days').textContent = days.toString().padStart(2, '0');
-  document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-  document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-}
-
-// Update countdown immediately and every minute
-updateCountdown();
-setInterval(updateCountdown, 60000);
-
-// Theme hover interaction - dynamically change page colors
+// Theme hover interaction
 document.addEventListener('DOMContentLoaded', function() {
   const swatches = document.querySelectorAll('.swatch');
   const root = document.documentElement;
@@ -761,26 +699,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Launching 30 June 2026 · iOS</div>
+      <div class="eyebrow">Coming soon · iOS</div>
       <h1>The calendar<br>that plans itself.</h1>
-      
-      <!-- Countdown Timer -->
-      <div class="countdown" id="countdown">
-        <div class="countdown-unit">
-          <div class="countdown-value" id="days">--</div>
-          <div class="countdown-label">Days</div>
-        </div>
-        <div class="countdown-separator">:</div>
-        <div class="countdown-unit">
-          <div class="countdown-value" id="hours">--</div>
-          <div class="countdown-label">Hours</div>
-        </div>
-        <div class="countdown-separator">:</div>
-        <div class="countdown-unit">
-          <div class="countdown-value" id="minutes">--</div>
-          <div class="countdown-label">Mins</div>
-        </div>
-      </div>
       
       <p class="tagline">Tempo auto-schedules your tasks around your real availability. Drag to reschedule. Eight calm themes. No migration — works with the calendar you already have.</p>
       <div class="cta-row">
@@ -793,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </a>
         <a class="btn btn-secondary" href="#features">See how it works</a>
       </div>
-      <p class="launch-note">Made by an indie developer in Australia. 7-day free trial on Tempo+ at launch.</p>
+      <p class="launch-note">Made by an indie developer in Australia.</p>
     </div>
     <div>
       <div class="phone">
@@ -964,65 +884,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </section>
 
-<section class="social-proof fade-in">
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-eyebrow">What People are Saying</div>
-      <h2>Built with feedback from 200+ beta testers</h2>
-    </div>
-    
-    <div class="testimonials">
-      <div class="testimonial">
-        <p class="testimonial-quote">"Finally, a calendar that doesn't stress me out. The drag-to-reschedule is so smooth."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">S</div>
-          <div class="testimonial-info">
-            <p class="testimonial-name">Sarah Chen</p>
-            <p class="testimonial-role">Product Designer</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial">
-        <p class="testimonial-quote">"The themes are gorgeous. I actually enjoy opening my calendar now."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">M</div>
-          <div class="testimonial-info">
-            <p class="testimonial-name">Marcus Rivera</p>
-            <p class="testimonial-role">Teacher</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial">
-        <p class="testimonial-quote">"Ask Tempo saves me 15 minutes every Sunday. Just tell it what needs doing."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">L</div>
-          <div class="testimonial-info">
-            <p class="testimonial-name">Lena Kowalski</p>
-            <p class="testimonial-role">Freelance Writer</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="trust-badges">
-      <div class="trust-badge">
-        <div class="trust-badge-value">200+</div>
-        <div class="trust-badge-label">Beta Testers</div>
-      </div>
-      <div class="trust-badge">
-        <div class="trust-badge-value">4.8★</div>
-        <div class="trust-badge-label">TestFlight Rating</div>
-      </div>
-      <div class="trust-badge">
-        <div class="trust-badge-value">100%</div>
-        <div class="trust-badge-label">Privacy Focused</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="pricing" class="fade-in">
   <div class="wrap">
     <div class="section-head">
@@ -1037,11 +898,12 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="price">Free<small> · forever</small></div>
         <p class="price-sub">Everything you'd expect from a calendar.</p>
         <ul class="price-list">
-          <li>Month, week, day, year views</li>
+          <li>Month, week, and day views</li>
           <li>Drag to reschedule with reflow</li>
           <li>All 8 themes</li>
-          <li>Widgets &amp; Live Activities</li>
+          <li>Home screen widgets</li>
           <li>Natural-language event entry</li>
+          <li>Procrastination calculator</li>
           <li>Works with iCloud, Google, Outlook</li>
         </ul>
       </div>
@@ -1051,9 +913,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <p class="price-sub">or $59.99 / year · 7-day free trial</p>
         <ul class="price-list">
           <li>Auto-scheduler around real availability</li>
-          <li>Procrastination calculator</li>
           <li>Project mode + deadline forecast</li>
           <li>Ask Tempo AI (plain-English commands)</li>
+          <li>Live Activities &amp; travel-time alerts</li>
           <li>Cancel any time — the free app still works</li>
         </ul>
       </div>
@@ -1149,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-answer">
-          Tempo launches on the App Store on June 30, 2026. Everyone gets a 7-day free trial of Tempo+ at launch.
+          Tempo is coming soon to the App Store. Sign up for updates or follow along — everyone gets a 7-day free trial of Tempo+ when it launches.
         </div>
       </div>
       
