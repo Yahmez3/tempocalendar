@@ -241,6 +241,10 @@ nav .wrap { display: flex; align-items: center; justify-content: space-between; 
 }
 .phone-screen img.active { opacity: 1; z-index: 1; }
 .phone-screen img:not(.active) { opacity: 0; z-index: 0; }
+.phone-screen video {
+  width: 100%; height: 100%; object-fit: cover;
+  position: absolute; top: 0; left: 0;
+}
 
 /* ═══════════ SECTIONS ═══════════ */
 section { padding: 96px 0; border-top: 1px solid var(--rule); }
@@ -592,7 +596,7 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
     <div>
       <div class="phone">
         <div class="phone-screen">
-          <img src="assets/screenshots/frame_2_day.png" alt="Tempo day view showing time-blocked schedule" class="active">
+          <video src="assets/demo.mp4" autoplay loop muted playsinline></video>
         </div>
       </div>
     </div>
